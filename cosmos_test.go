@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func TestBNBDecodeToBytes(t *testing.T) {
+func TestCosmosDecodeToBytes(t *testing.T) {
 	tests := []struct {
 		name   string
 		input  string
@@ -17,44 +17,44 @@ func TestBNBDecodeToBytes(t *testing.T) {
 	}{
 		{
 			name:   "Normal",
-			input:  "bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2",
-			output: "40c2979694bbc961023d1d27be6fc4d21a9febe6",
+			input:  "cosmos1hsk6jryyqjfhp5dhc55tc9jtckygx0eph6dd02",
+			output: "bc2da90c84049370d1b7c528bc164bc588833f21",
 		},
 		{
 			name:  "Testnet",
-			input: "tbnb1683m5xkxa3p69yagrpdsvkp94xvx6utjf0cs9t",
+			input: "cosmosvaloper1sxx9mszve0gaedz5ld7qdkjkfv8z992ax69k08",
 			err:   errors.New("decoded hrp mismatch"),
 		},
 		{
 			name:  "Wrong checksum",
-			input: "bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46hy",
-			err:   errors.New("decoding bech32 failed: checksum failed. Expected fn46h2, got fn46hy."),
+			input: "cosmos1hsk6jryyqjfhp5dhc55tc9jtckygx0eph6dd03",
+			err:   errors.New("decoding bech32 failed: checksum failed. Expected h6dd02, got h6dd03."),
 		},
 		{
 			name:  "Invalid public key hash",
-			input: "bnb1vehk7cnpwga5a9et",
+			input: "cosmos1vehk7cnpwgls32ra",
 			err:   errors.New("A Bech32 address key hash must be 20 bytes"),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := BNBDecodeToBytes(tt.input)
+			got, err := CosmosDecodeToBytes(tt.input)
 			if tt.err != nil {
 				if err.Error() != tt.err.Error() {
-					t.Errorf("BNBDecodeToBytes() error = %v, wantErr %v", err, tt.err)
+					t.Errorf("CosmosDecodeToBytes() error = %v, wantErr %v", err, tt.err)
 					return
 				}
 			} else {
 				if !reflect.DeepEqual(hex.EncodeToString(got), tt.output) {
-					t.Errorf("BNBDecodeToBytes() = %v, want %v", hex.EncodeToString(got), tt.output)
+					t.Errorf("CosmosDecodeToBytes() = %v, want %v", hex.EncodeToString(got), tt.output)
 				}
 			}
 		})
 	}
 }
 
-func TestBNBEncodeToString(t *testing.T) {
-	keyhash, _ := hex.DecodeString("40c2979694bbc961023d1d27be6fc4d21a9febe6")
+func TestCosmosEncodeToString(t *testing.T) {
+	keyhash, _ := hex.DecodeString("bc2da90c84049370d1b7c528bc164bc588833f21")
 	tests := []struct {
 		name   string
 		input  []byte
@@ -74,20 +74,20 @@ func TestBNBEncodeToString(t *testing.T) {
 		{
 			name:   "Good",
 			input:  keyhash,
-			output: "bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2",
+			output: "cosmos1hsk6jryyqjfhp5dhc55tc9jtckygx0eph6dd02",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := BNBEncodeToString(tt.input)
+			got, err := CosmosEncodeToString(tt.input)
 			if tt.err != nil {
 				if err.Error() != tt.err.Error() {
-					t.Errorf("BNBEncodeToString() error = %v, wantErr %v", err, tt.err)
+					t.Errorf("CosmosEncodeToString() error = %v, wantErr %v", err, tt.err)
 					return
 				}
 			} else {
 				if got != tt.output {
-					t.Errorf("BNBEncodeToString() = %v, want %v", got, tt.output)
+					t.Errorf("CosmosEncodeToString() = %v, want %v", got, tt.output)
 				}
 			}
 		})
