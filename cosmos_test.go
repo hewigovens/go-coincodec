@@ -21,6 +21,11 @@ func TestCosmosDecodeToBytes(t *testing.T) {
 			output: "bc2da90c84049370d1b7c528bc164bc588833f21",
 		},
 		{
+			name:   "Normal2",
+			input:  "cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27",
+			output: "6e436a571cec916167ba105160474b9c9cd132bd",
+		},
+		{
 			name:  "Testnet",
 			input: "cosmosvaloper1sxx9mszve0gaedz5ld7qdkjkfv8z992ax69k08",
 			err:   errors.New("decoded hrp mismatch"),
@@ -55,6 +60,8 @@ func TestCosmosDecodeToBytes(t *testing.T) {
 
 func TestCosmosEncodeToString(t *testing.T) {
 	keyhash, _ := hex.DecodeString("bc2da90c84049370d1b7c528bc164bc588833f21")
+	keyhash2, _ := hex.DecodeString("6e436a571cec916167ba105160474b9c9cd132bd")
+
 	tests := []struct {
 		name   string
 		input  []byte
@@ -75,6 +82,11 @@ func TestCosmosEncodeToString(t *testing.T) {
 			name:   "Good",
 			input:  keyhash,
 			output: "cosmos1hsk6jryyqjfhp5dhc55tc9jtckygx0eph6dd02",
+		},
+		{
+			name:   "Good2",
+			input:  keyhash2,
+			output: "cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27",
 		},
 	}
 	for _, tt := range tests {

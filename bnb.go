@@ -5,10 +5,8 @@ import (
 )
 
 const (
-	BNB_MAINNET_HRP    = "bnb"
+	BNB_MAINNET_HRP = "bnb"
 )
-
-//var bnbKeyHashError = errors.New("BNB address key hash must be 20 bytes")
 
 func init() {
 	toBytesMap[slip44.BINANCE] = BNBDecodeToBytes
