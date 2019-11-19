@@ -14,6 +14,9 @@ const (
 func init() {
 	toBytesMap[slip44.STELLAR_LUMENS] = StellarDecodeToBytes
 	toStringMap[slip44.STELLAR_LUMENS] = StellarEncodeToString
+
+	toBytesMap[slip44.KIN] = StellarDecodeToBytes
+	toStringMap[slip44.KIN] = StellarEncodeToString
 }
 
 // Converts the input string to a byte array
