@@ -33,12 +33,13 @@ func StellarDecodeToBytes(input string) ([]byte, error) {
 func StellarEncodeToString(bytes []byte) (string, error) {
 	data := []byte{STELLAR_VERSION_BYTE_ACCOUNT_ID}
 	data = append(data, bytes...)
-	checksum := Crc16(bytes)
+	checksum := Crc16(data)
 	data = append(data, checksum...)
 	return base32.StdEncoding.EncodeToString(data), nil
 }
 
 func Crc16(bytes []byte) []byte {
+	// https://godoc.org/github.com/stellar/go/crc16
 	crc := uint16(0x0000)
 	polynomial := uint16(0x1021)
 	for _, b := range bytes {
@@ -51,6 +52,7 @@ func Crc16(bytes []byte) []byte {
 			}
 		}
 	}
+	crc = crc & uint16(0xffff)
 	checksum := []byte{byte(crc & 0x00ff), byte((crc >> 8) & 0x00ff)}
 	return checksum
 }
