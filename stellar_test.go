@@ -5,6 +5,8 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/pkg/errors"
 )
 
 func TestStellarDecodeToBytes(t *testing.T) {
@@ -18,6 +20,21 @@ func TestStellarDecodeToBytes(t *testing.T) {
 			name:   "Normal",
 			input:  "GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER",
 			output: "11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea",
+		},
+		{
+			name:  "Ethereum",
+			input: "0x0102030405060708090a0B0c0d0e0f1011121314",
+			err:   errors.New("base32 decode error: illegal base32 data at input byte 0"),
+		},
+		{
+			name:  "Version Tag",
+			input: "ONXW2ZJAMRQXIYJAO5UXI2BAAAQGC3TEEDX3XPY=",
+			err:   errors.New("invalid version byte"),
+		},
+		{
+			name:  "Checksum",
+			input: "GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6V7DU",
+			err:   errors.New("wrong checksum"),
 		},
 	}
 	for _, tt := range tests {

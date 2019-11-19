@@ -1,6 +1,7 @@
 package coincodec
 
 import (
+	"bytes"
 	"encoding/base32"
 
 	"github.com/pkg/errors"
@@ -27,6 +28,10 @@ func StellarDecodeToBytes(input string) ([]byte, error) {
 	}
 	if decoded[0] != STELLAR_VERSION_BYTE_ACCOUNT_ID {
 		return nil, errors.New("invalid version byte")
+	}
+	checksum := Crc16(decoded[:len(decoded)-2])
+	if !bytes.Equal(checksum, decoded[len(decoded)-2:]) {
+		return nil, errors.New("wrong checksum")
 	}
 	// strip version byte and checksum
 	return decoded[1 : len(decoded)-2], nil
