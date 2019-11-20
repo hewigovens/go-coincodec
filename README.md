@@ -1,3 +1,5 @@
+# Moved to https://github.com/trustwallet/ens-coincodec
+
 # go-coincodec
 
 [![Tag](https://img.shields.io/github/tag/hewigovens/go-coincodec.svg)](https://github.com/hewigovens/go-coincodec/releases/)
